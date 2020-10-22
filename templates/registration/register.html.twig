@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks - Register{% endblock %}
+
+{% block body %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 text-center">Register</h1>
+    <div class="col-xs-12 col-md-6 m-auto">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="{{ path('app_register') }}">
+                {{ form_row(form.email) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.plainPassword) }}
+                <input class="btn btn-primary float-right" type="submit" value="Register">
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
