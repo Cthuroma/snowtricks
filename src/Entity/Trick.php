@@ -44,6 +44,12 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Group::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
@@ -169,6 +175,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Group
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Group $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
