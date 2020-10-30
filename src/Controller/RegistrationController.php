@@ -2,39 +2,29 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\UserRegister;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
+     * @param Request $request
+     * @param UserRegister $register
+     * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserRegister $register): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setToken(md5(random_bytes(10)));
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
+            $register->register($form->getData(), $form->get('plainPassword')->getData() );
 
             return $this->redirectToRoute('app_login');
         }
