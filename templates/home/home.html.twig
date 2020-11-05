@@ -4,17 +4,13 @@
 
 {% block body %}
 <main role="main">
-    <div class="container-fluid" style="height: 1000px; background-image: url('https://via.placeholder.com/150'); background-size: cover; margin-bottom: 20px; padding-top: 20%;">
+    <div class="container-fluid home-cover">
         <div class="row">
-            <div class="col-12" style="margin-bottom: 25%;">
+            <div class="col-12">
                 <h1 class="mt-5 text-center">Phrase d'accroche</h1>
             </div>
         </div>
-        <div class="row justify-content-end">
-            <div class="col-2">
-                <a href="#tricks" class="btn btn-primary "><i class="far fa-arrow-alt-circle-down"></i></a>
-            </div>
-        </div>
+        <a href="#tricks" class="btn btn-primary scroll-back-button"><i class="fas fa-arrow-alt-circle-down"></i></a>
     </div>
 
     <div class="container-fluid" id="tricks">
@@ -244,3 +240,5 @@
 </main>
 
 {% endblock %}
+
+
