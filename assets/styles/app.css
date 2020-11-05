@@ -1,0 +1,24 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
+
+body {
+    background-color: lightgray;
+}
+
+
+
+.home-cover{
+    height: 90vh;
+    background-image: url('https://via.placeholder.com/150');
+    background-size: cover;
+    margin-bottom: 20px;
+    padding-top: 20%;
+    position: relative;
+}
+
+.scroll-back-button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
