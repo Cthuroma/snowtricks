@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GroupRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,7 +30,7 @@ class Group
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="category", orphanRemoval=true)
      */
     private $tricks;
 
@@ -62,7 +63,10 @@ class Group
         return $this;
     }
 
-    public function getTricks(): ?Trick
+    /**
+     * @return Collection|Trick[]
+     */
+    public function getTricks(): Collection
     {
         return $this->tricks;
     }

@@ -59,12 +59,12 @@ class AppFixtures extends Fixture
 
         $videoOne = new Video();
         $videoOne->setTrick($trick);
-        $videoOne->setUrl('<iframe src="https://www.youtube.com/embed/gZFWW4Vus-Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+        $videoOne->setUrl('https://www.youtube.com/embed/gZFWW4Vus-Q');
         $videoOne->setDescription('How To Nose Grab - Snowboarding Tricks');
 
         $videoTwo = new Video();
         $videoTwo->setTrick($trick);
-        $videoTwo->setUrl('<iframe src="https://www.youtube.com/embed/nIS14rVlbyQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+        $videoTwo->setUrl('https://www.youtube.com/embed/nIS14rVlbyQ');
         $videoTwo->setDescription('Common Mistakes With Nose Grabs');
 
         $trick->addVideo($videoOne);
@@ -87,6 +87,7 @@ class AppFixtures extends Fixture
         $comment->setContent('Harder to do than it looks like !');
         $comment->setUser($verifiedUser);
         $comment->setTrick($trick);
+        $comment->setCreatedAt(new \DateTime());
 
         $trick->addComment($comment);
 

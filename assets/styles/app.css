@@ -1,5 +1,10 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import '~@fortawesome/fontawesome-free/css/solid.min.css';
+@import '~@fortawesome/fontawesome-free/css/regular.min.css';
+@import '~@fortawesome/fontawesome-free/css/solid.min.css';
+@import '~@fortawesome/fontawesome-free/css/brands.min.css';
 
 body {
     background-color: lightgray;
@@ -9,7 +14,6 @@ body {
 
 .home-cover{
     height: 90vh;
-    background-image: url('https://via.placeholder.com/150');
     background-size: cover;
     margin-bottom: 20px;
     padding-top: 20%;
