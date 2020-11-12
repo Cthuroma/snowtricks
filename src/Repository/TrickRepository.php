@@ -14,11 +14,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
+
+    const TRICKS_PER_PAGE = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Trick::class);
     }
 
+    public function homeTricks(int $page)
+    {
+        return $this->createQueryBuilder('t')
+            ->setMaxResults(self::TRICKS_PER_PAGE)
+            ->setFirstResult(($page -1)* self::TRICKS_PER_PAGE)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */
@@ -36,15 +47,14 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Trick
+
+    public function findById($id): ?Trick
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
 }

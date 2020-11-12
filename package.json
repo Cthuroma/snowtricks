@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.1",
         "@symfony/webpack-encore": "^0.31.0",
         "core-js": "^3.0.0",
         "regenerator-runtime": "^0.13.2",
@@ -14,7 +15,6 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
         "bootstrap": "^4.5.3",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1"
