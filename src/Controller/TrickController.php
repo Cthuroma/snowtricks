@@ -32,4 +32,16 @@ class TrickController extends AbstractController
             'trick' => $trick
         ]);
     }
+
+    /**
+     * @Route("/tricks", name="tricks")
+     * @Entity ("trick", expr="repository.findById(id)")
+     */
+    public function tricks(Trick $trick)
+    {
+
+        return $this->render('trick/trick.html.twig', [
+            'trick' => $trick
+        ]);
+    }
 }
