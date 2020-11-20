@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Trick;
 use App\Repository\TrickRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +23,10 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{id}", name="trick")
+     * @Entity ("trick", expr="repository.findById(id)")
      */
-    public function trick(int $id)
+    public function trick(Trick $trick)
     {
-        $trick = $this->trickRepository->findById($id);
 
         return $this->render('trick/trick.html.twig', [
             'trick' => $trick
