@@ -1,0 +1,10 @@
+{% extends 'emails/base.html.twig' %}
+{% block header %}
+    Forgot your <span style="color: #5caad2;">SnowTricks</span> password sleepyhead ?
+{%  endblock %}
+{% block text %}
+    Don't worry we've got you covered, just click the link, and you'll be able to set a new one. Don't forget it this time !
+{% endblock %}
+{% block buttonlink %}
+    <a style="color: #ffffff; text-decoration: none;" href="{{  'http://localhost:8000/reset?token='~user.token }}">RESET PASSWORD</a>
+{% endblock %}

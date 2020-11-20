@@ -36,10 +36,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function findBToken($value)
+    public function findByToken($value)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.token = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findByMail($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult();
