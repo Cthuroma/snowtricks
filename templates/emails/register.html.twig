@@ -1,0 +1,10 @@
+{% extends 'emails/base.html.twig' %}
+{% block header %}
+    Welcome to the <span style="color: #5caad2;">SnowTricks</span> family !
+{%  endblock %}
+{% block text %}
+    You're almost there, we just need you to verify your email, and you'll be one of us ! You will be able to edit existing tricks as well as creating new ones and commenting to share your experience with other snowboard enthusiats !
+{% endblock %}
+{% block buttonlink %}
+    <a style="color: #ffffff; text-decoration: none;" href="{{  'http://localhost:8000/verify?token='~user.token }}">VERIFY EMAIL</a>
+{% endblock %}
