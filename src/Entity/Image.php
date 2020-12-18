@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -26,6 +30,12 @@ class Image
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+
+    /**
+     * @Assert\Image()
+     */
+    private $file;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
@@ -73,4 +83,39 @@ class Image
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file): void
+    {
+        $this->file = $file;
+    }
+
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        if($this->getFile() instanceof  UploadedFile ){
+            $file = $this->getFile();
+            $newFilename = uniqid().'.'.$file->guessExtension();
+            try {
+                $file->move('images/uploads', $newFilename);
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            $this->setPath($newFilename);
+        }
+    }
+
 }
