@@ -9,7 +9,7 @@
     <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{ asset('images/uploads/'~trick.images[0].path) }}" class="d-block w-100" alt="...">
+                <!-- <img src="" class="d-block w-100" alt="..."> !-->
             </div>
         </div>
     </div>
@@ -19,16 +19,23 @@
         <div class="col-md-3">
             <div class="card mb-4 shadow-sm">
                 <img class="bd-placeholder-img card-img-top" alt="" width="100%" height="150" src="{{ asset('images/uploads/'~image.path) }}">
+                <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
             </div>
         </div>
         {% endfor %}
         {% for video in trick.videos %}
         <div class="col-md-3">
             <div class="card mb-4 shadow-sm">
-                <iframe height="150" src="{{ video.url }}" frameborder=o"0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe height="150" src="{{ video.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
             </div>
         </div>
         {% endfor %}
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <button class="btn btn-outline-info trick-add-btn"><i class="fas fa-plus-circle"></i></button>
+            </div>
+        </div>
     </div>
     <hr />
     <div class="comments col-12" id="comments">

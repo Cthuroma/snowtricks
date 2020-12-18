@@ -3,6 +3,7 @@
 {% block body %}
     <div class="container">
         {{ form_start(form) }}
+        {{ form_errors(form) }}
         {{ form_row(form._token) }}
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
@@ -14,6 +15,7 @@
         </div>
         <div class="form-group">
             Videos
+            {{ form_errors(form.videos) }}
             <ul class="videos" id="videoul" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>
             <button type="button" class="addform" data-formul="videoul">Add a video</button>
         </div>

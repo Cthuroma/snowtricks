@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Group;
+use Symfony\Component\Validator\Constraints\Count;
 
 class TrickFormType extends AbstractType
 {
@@ -30,7 +31,9 @@ class TrickFormType extends AbstractType
                 'entry_type' => ImageType::class,
                 'label' => false,
                 'entry_options' => ['label' => false],
+                'error_bubbling' => false,
                 'allow_add' => true,
+                'by_reference' => false
             ])
 
             ->add('videos', CollectionType::class, [
@@ -38,6 +41,7 @@ class TrickFormType extends AbstractType
                 'label' => false,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'by_reference' => false
             ])
 
             ->add('submit', SubmitType::class);
@@ -47,6 +51,7 @@ class TrickFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            'error_mapping' => ['images' => 'images'],
         ]);
     }
 }
