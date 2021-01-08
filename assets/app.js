@@ -8,8 +8,11 @@
 // any CSS you import will output into a single css file (app.css in this case)
 
 import 'popper.js';
+
+const $ = require('jquery');
+
+global.$ = global.jQuery = $;
+
 import 'bootstrap';
-import 'jquery';
 
 import './styles/app.css';
-

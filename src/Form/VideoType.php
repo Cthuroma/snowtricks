@@ -20,7 +20,7 @@ class VideoType extends AbstractType
             ->add('url', TextType::class, ([
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/(?:https?:\/\/)?(?:www\.)?youtu(.be\/|be\.com\/watch\?v=|be\.com\/embed\/)(\S{11})/',
+                        'pattern' => '/(?:https?:\/\/)?(?:www\.)?youtu(be\.com\/embed\/)(\S{11})/',
                         'message' => 'Please link a YouTube video !'
                     ])
                 ],

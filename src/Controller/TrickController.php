@@ -2,20 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Group;
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
-use App\Form\ImageType;
+use App\Form\AddTrickAssetType;
+use App\Form\EditTrickType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Image;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class TrickController extends AbstractController
 {
@@ -29,6 +28,7 @@ class TrickController extends AbstractController
      */
     private $entityManager;
 
+
     public function __construct(TrickRepository $trickRepository, EntityManagerInterface $entityManager)
     {
         $this->trickRepository = $trickRepository;
@@ -41,9 +41,24 @@ class TrickController extends AbstractController
      */
     public function trick(Trick $trick)
     {
-
         return $this->render('trick/trick.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+        ]);
+    }
+
+    /**
+     * @Route("/editrick/{id}", name="editrick")
+     * @Entity ("trick", expr="repository.findById(id)")
+     * @IsGranted("ROLE_USER")
+     */
+    public function trickEdit(Trick $trick)
+    {
+        $assetForm = $this->createForm(AddTrickAssetType::class);
+        $form = $this->createForm(EditTrickType::class);
+        return $this->render('trick/editrick.html.twig', [
+            'trick' => $trick,
+            'assetForm' => $assetForm->createView(),
+            'form' => $form->createView()
         ]);
     }
 
@@ -53,14 +68,27 @@ class TrickController extends AbstractController
      */
     public function tricks(Trick $trick)
     {
-
         return $this->render('trick/trick.html.twig', [
             'trick' => $trick
         ]);
     }
 
     /**
+     * @Route("/delete/trick/{id}", name="trick.delete")
+     * @Entity ("trick", expr="repository.findById(id)")
+     * @IsGranted("ROLE_USER")
+     */
+    public function deleteTrick(Trick $trick)
+    {
+        $this->entityManager->remove($trick);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
      * @Route("/create/trick", name="trick.create")
+     * @IsGranted("ROLE_USER")
      */
     public function createTrick(Request $request)
     {
@@ -70,13 +98,93 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($trick);
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
         }
 
         return $this->render('trick/createtrick.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/addAsset/trick/{id}", name="add_trick_asset")
+     * @IsGranted("ROLE_USER")
+     */
+    public function addTrickAsset(Request $request, Trick $trick)
+    {
+        $assetForm = $this->createForm(AddTrickAssetType::class);
+        $assetForm->handleRequest($request);
+
+        if ($assetForm->isSubmitted() && $assetForm->isValid()) {
+            $images = $assetForm->getData()['images'];
+            foreach($images as $image){
+                $trick->addImage($image);
+            }
+            foreach($assetForm->getData()['videos'] as $video){
+                $trick->addVideo($video);
+            }
+           $this->entityManager->persist($trick);
+           $this->entityManager->flush();
+            return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        }
+
+        $form = $this->createForm(EditTrickType::class);
+
+        return $this->render('trick/trick.html.twig', [
+            'trick' => $trick,
+            'assetForm' => $assetForm->createView(),
+            'form' => $form->createView(),
+            'assetError' => true
+        ]);
+    }
+
+    /**
+     * @Route("/deleteImage/{id}", name="delete_image")
+     * @IsGranted("ROLE_USER")
+     */
+    public function deleteImage(Image $image)
+    {
+        $trick = $image->getTrick();
+        $this->entityManager->remove($image);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+    }
+
+    /**
+     * @Route("/deleteVideo/{id}", name="delete_video")
+     * @IsGranted("ROLE_USER")
+     */
+    public function deleteVideo(Video $video)
+    {
+        $trick = $video->getTrick();
+        $this->entityManager->remove($video);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+    }
+
+    /**
+     * @Route("/edit/trick/{id}", name="edit_trick")
+     * @IsGranted("ROLE_USER")
+     */
+    public function editTrick(Request $request, Trick $trick)
+    {
+        $form = $this->createForm(EditTrickType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($trick);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        }
+
+        $assetForm = $this->createForm(AddTrickAssetType::class);
+
+        return $this->render('trick/trick.html.twig', [
+            'trick' => $trick,
+            'assetForm' => $assetForm->createView(),
+            'form' => $form->createView(),
+            'editError' => true
         ]);
     }
 }
