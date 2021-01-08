@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\AddTrickAssetType;
+use App\Form\CommentType;
 use App\Form\EditTrickType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
@@ -41,8 +42,10 @@ class TrickController extends AbstractController
      */
     public function trick(Trick $trick)
     {
+        $form = $this->createForm(CommentType::class);
         return $this->render('trick/trick.html.twig', [
             'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 

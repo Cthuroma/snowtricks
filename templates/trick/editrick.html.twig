@@ -44,24 +44,6 @@
         <a data-toggle="modal" data-target="#addAssetModal" class="btn btn-outline-info trick-add-btn"><i class="fas fa-plus-circle"></i></a>
         {% endif %}
     </div>
-    <hr />
-    <div class="comments col-12" id="comments">
-        <h3 class="mb-4 font-weight-light">Comments</h3>
-        {% for comment in trick.comments %}
-        <div class="comment mb-2 row">
-            <div class="comment-avatar col-md-1 col-2 text-center pr-1">
-                <a href="#" class="disabled"><img class="mx-auto rounded-circle img-fluid" src="{{  asset('images/avatar-placeholder.gif') }}" alt="avatar"></a>
-            </div>
-            <div class="comment-content col-md-11 col-10">
-                <h6 class="small comment-meta"><a href="#">{{ comment.user.name }}</a> {{ comment.createdAt|format_datetime() }}</h6>
-                <div class="comment-body">
-                    <p>{{ comment.content }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
 
     <!-- Modal -->
     <div class="modal fade" id="addAssetModal" tabindex="-1" role="dialog" aria-labelledby="addAssetModalLabel" aria-hidden="true">

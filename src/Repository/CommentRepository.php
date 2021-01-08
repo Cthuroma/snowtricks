@@ -19,6 +19,27 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+
+    public function findByTrick($trick)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.trick = :val')
+            ->setParameter('val', $trick)
+            ->orderBy('c.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneById($value): ?Comment
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

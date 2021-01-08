@@ -8,19 +8,29 @@
     <h4>{{  trick.description }}
     </h4>
     <h6><a href="{{ '/groups/'~trick.category.id }}">{{ trick.category.name }}</a></h6>
-    <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <!-- <img src="" class="d-block w-100" alt="..."> !-->
+            {% for image in trick.images %}
+            <div class="carousel-item {{ (loop.index == 1)?('active'):('') }}">
+                <img class="d-block w-100" alt="{{ image.description }}" height="500" src="{{ asset('images/uploads/'~image.path) }}">
             </div>
+            {% endfor %}
         </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
     <button class="btn m-auto btn-outline-info d-flex d-sm-none">See all medias</button>
     <div class="row no-gutters d-none d-sm-inline-flex">
         {% for image in trick.images %}
         <div class="col-md-3">
             <div class="card mb-4 shadow-sm">
-                <img class="bd-placeholder-img card-img-top" alt="" width="100%" height="150" src="{{ asset('images/uploads/'~image.path) }}">
+                <img class="bd-placeholder-img card-img-top" alt="{{ image.description }}" width="100%" height="150" src="{{ asset('images/uploads/'~image.path) }}">
             </div>
         </div>
         {% endfor %}
@@ -33,18 +43,34 @@
         {% endfor %}
     </div>
     <hr />
-    <div class="comments col-12" id="comments">
+
+    <div class="comments col-12">
+        <h3 class="mb-4 font-weight-light">Write a comment</h3>
+        {{ form_start(form, {action: path('comment', {id: trick.id})}) }}
+        {{ form_row(form._token) }}
+        {% if app.user != null %}
+            {{ form_row(form.content) }}
+            <input class="btn btn-primary" style="float: right;" type="submit" value="Add a comment">
+        {% else %}
+            {{ form_row(form.content, {'attr': {'disabled': 'disabled'}}) }}
+            <button class="btn btn-warning disabled" style="float: right;" >You need to be logged in to comment !</button>
+        {%  endif %}
+        {{ form_end(form) }}
+    </div>
+    <div class="comments col-12" style="clear: right" id="comments">
         <h3 class="mb-4 font-weight-light">Comments</h3>
         {% for comment in trick.comments %}
         <div class="comment mb-2 row">
-            <div class="comment-avatar col-md-1 col-2 text-center pr-1">
-                <a href="#" class="disabled"><img class="mx-auto rounded-circle img-fluid" src="{{  asset('images/avatar-placeholder.gif') }}" alt="avatar"></a>
-            </div>
-            <div class="comment-content col-md-11 col-10">
+            <div class="comment-content col-11">
                 <h6 class="small comment-meta"><a href="#">{{ comment.user.name }}</a> {{ comment.createdAt|format_datetime() }}</h6>
                 <div class="comment-body">
                     <p>{{ comment.content }}</p>
                 </div>
+            </div>
+            <div class="col-1">
+            {% if (app.user != null) and (app.user.id == comment.user.id) %}
+                <a href="{{ path('delete_comment', {'id': comment.id }) }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+            {% endif %}
             </div>
         </div>
         {% endfor %}
