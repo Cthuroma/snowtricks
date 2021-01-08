@@ -118,4 +118,14 @@ class Image
         }
     }
 
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemove()
+    {
+        unlink('images/uploads/'.$this->getPath());
+    }
+
+
+
 }

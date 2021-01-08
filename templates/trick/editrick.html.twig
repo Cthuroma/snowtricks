@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ trick.name }}</h1>
+    <h4>{{  trick.description }}
+        {%  if app.user != null %}
+        <a data-toggle="modal" data-target="#editModal" class="btn btn-outline-info" style="float:right;"><i class="fas fa-pen"></i></a>
+        {% endif %}
+    </h4>
+    <h6><a href="{{ '/groups/'~trick.category.id }}">{{ trick.category.name }}</a></h6>
+    <div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <!-- <img src="" class="d-block w-100" alt="..."> !-->
+            </div>
+        </div>
+    </div>
+    <button class="btn m-auto btn-outline-info d-flex d-sm-none">See all medias</button>
+    <div class="row no-gutters d-none d-sm-inline-flex">
+        {% for image in trick.images %}
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <img class="bd-placeholder-img card-img-top" alt="" width="100%" height="150" src="{{ asset('images/uploads/'~image.path) }}">
+                {%  if app.user != null %}
+                <a href="{{ path('delete_image', {'id': image.id}) }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% for video in trick.videos %}
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <iframe height="150" src="{{ video.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {%  if app.user != null %}
+                <a href="{{ path('delete_video', {'id': video.id}) }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {%  if app.user != null %}
+        <a data-toggle="modal" data-target="#addAssetModal" class="btn btn-outline-info trick-add-btn"><i class="fas fa-plus-circle"></i></a>
+        {% endif %}
+    </div>
+    <hr />
+    <div class="comments col-12" id="comments">
+        <h3 class="mb-4 font-weight-light">Comments</h3>
+        {% for comment in trick.comments %}
+        <div class="comment mb-2 row">
+            <div class="comment-avatar col-md-1 col-2 text-center pr-1">
+                <a href="#" class="disabled"><img class="mx-auto rounded-circle img-fluid" src="{{  asset('images/avatar-placeholder.gif') }}" alt="avatar"></a>
+            </div>
+            <div class="comment-content col-md-11 col-10">
+                <h6 class="small comment-meta"><a href="#">{{ comment.user.name }}</a> {{ comment.createdAt|format_datetime() }}</h6>
+                <div class="comment-body">
+                    <p>{{ comment.content }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addAssetModal" tabindex="-1" role="dialog" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAssetModalLabel">Want to add something ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(assetForm, {action: path('add_trick_asset', {id: trick.id})}) }}
+                        {{ form_errors(assetForm) }}
+                        {{ form_row(assetForm._token) }}
+                        <div class="form-group">
+                            Images
+                            <ul class="images" id="imageul" data-prototype="{{ form_widget(assetForm.images.vars.prototype)|e('html_attr') }}"></ul>
+                            <button type="button" class="btn btn-outline-info addform" data-formul="imageul">Add an image</button>
+                        </div>
+                        <div class="form-group">
+                            Videos
+                            {{ form_errors(assetForm.videos) }}
+                            <ul class="videos" id="videoul" data-prototype="{{ form_widget(assetForm.videos.vars.prototype)|e('html_attr') }}"></ul>
+                            <button type="button" class="btn btn-outline-info addform" data-formul="videoul">Add a video</button>
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Confirm">
+                        {{ form_end(assetForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Want to add something ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form, {action: path('edit_trick', {id: trick.id})}) }}
+                    {{ form_errors(form) }}
+                    {{ form_row(form._token) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.category) }}
+                    <input class="btn btn-primary" type="submit" value="Confirm">
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('createtrick') }}
+    {{ encore_entry_script_tags('app') }}
+    {% if assetError is defined %}
+        <script>$('#addAssetModal').modal('show')</script>
+    {% elseif editError is defined %}
+        <script>$('#editModal').modal('show')</script>
+    {% endif %}
+{% endblock %}
