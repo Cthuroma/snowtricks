@@ -26,6 +26,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('createtrick', './assets/scripts/createtrick.js')
     .addEntry('loadmore', './assets/scripts/loadmore.js')
+    .addEntry('comment_pagination', './assets/scripts/comment_pagination.js')
     //.addEntry('page2', './assets/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
