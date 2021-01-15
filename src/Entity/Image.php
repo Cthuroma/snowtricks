@@ -127,7 +127,4 @@ class Image
         $filesystem = new Filesystem();
         $filesystem->remove(['images/uploads/'.$this->getPath()]);
     }
-
-
-
 }

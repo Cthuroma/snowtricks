@@ -95,9 +95,9 @@ class AuthController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if($resetPass->resetPassLast($form->get('token')->getData(), $form->get('plainPassword')->getData())){
                 $this->addFlash('success', 'Successfully resetted your password.');
-            }else{
-                $this->addFlash('danger', 'An Error Occured.');
+                return $this->redirectToRoute('app_login');
             }
+            $this->addFlash('danger', 'An Error Occured.');
             return $this->redirectToRoute('app_login');
         }
         return $this->redirectToRoute('reset_password', ['token' => $form->get('token')->getData()]);
