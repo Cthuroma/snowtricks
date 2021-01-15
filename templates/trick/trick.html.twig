@@ -5,9 +5,6 @@
 {% block body %}
 <div class="container">
     <h1>{{ trick.name }}</h1>
-    <h4>{{  trick.description }}
-    </h4>
-    <h6><a href="{{ '/groups/'~trick.category.id }}">{{ trick.category.name }}</a></h6>
     <div id="carouselExampleControls" class="carousel slide mb-4" data-ride="carousel">
         <div class="carousel-inner">
             {% for image in trick.images %}
@@ -43,7 +40,9 @@
         {% endfor %}
     </div>
     <hr />
-
+    <p class="lead">{{ trick.description }}</p>
+    <h4><span class="badge badge-pill badge-primary">{{ trick.category.name }}</span></h4>
+    <hr />
     <div class="comments col-12">
         <h3 class="mb-4 font-weight-light">Write a comment</h3>
         {{ form_start(form, {action: path('comment', {id: trick.id})}) }}
