@@ -53,10 +53,9 @@ class AuthController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Successfully confirmed your email.');
             return $this->redirectToRoute('app_login');
-        }else{
-            $this->addFlash('danger', 'Email confirmation didn\'t work.');
-            return $this->redirectToRoute('app_register');
         }
+        $this->addFlash('danger', 'Email confirmation didn\'t work.');
+        return $this->redirectToRoute('app_register');
     }
 
 

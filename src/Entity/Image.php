@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -123,7 +124,8 @@ class Image
      */
     public function preRemove()
     {
-        unlink('images/uploads/'.$this->getPath());
+        $filesystem = new Filesystem();
+        $filesystem->remove(['images/uploads/'.$this->getPath()]);
     }
 
 

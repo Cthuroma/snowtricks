@@ -24,7 +24,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home(Request $request)
+    public function home()
     {
         $page = 1;
         $tricks = $this->trickRepository->homeTricks($page);

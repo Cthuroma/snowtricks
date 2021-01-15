@@ -69,8 +69,8 @@
 
 {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
     <script>let page = {{ page }}</script>
-    {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('loadmore') }}
 {% endblock %}
 

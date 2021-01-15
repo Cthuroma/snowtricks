@@ -73,7 +73,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new CustomUserMessageAuthenticationException('Couldn\'t find any account with this address.');
         }
 
-        if (!is_null($user->getToken())) {
+        if ($user->getToken() !== null) {
             throw new CustomUserMessageAuthenticationException('Your email was not verified yet. Check your inbox.');
         }
 

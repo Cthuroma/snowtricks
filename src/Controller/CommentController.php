@@ -54,7 +54,7 @@ class CommentController extends AbstractController
      * @Entity ("comment", expr="repository.findOneById(id)")
      * @IsGranted("ROLE_USER")
      */
-    public function deleteComment(Request $request, Comment $comment)
+    public function deleteComment(Comment $comment)
     {
         $trick = $comment->getTrick();
         if($this->getUser() == $comment->getUser()){

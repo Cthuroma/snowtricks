@@ -102,12 +102,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('createtrick') }}
-    {{ encore_entry_script_tags('app') }}
+    {{ parent() }}
     {{ encore_entry_script_tags('comment_pagination') }}
-    {% if assetError is defined %}
-        <script>$('#addAssetModal').modal('show')</script>
-    {% elseif editError is defined %}
-        <script>$('#editModal').modal('show')</script>
-    {% endif %}
 {% endblock %}
