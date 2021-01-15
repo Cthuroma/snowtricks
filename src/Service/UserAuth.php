@@ -91,7 +91,7 @@ class UserAuth
     {
 
         $user = $this->userRepository->findByToken($token);
-        if(!is_null($user)){
+        if($user !== null){
             $user->setPassword(
                 $this->encoder->encodePassword(
                     $user,

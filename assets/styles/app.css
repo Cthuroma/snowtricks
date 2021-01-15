@@ -1,32 +1,29 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
-@import '~@fortawesome/fontawesome-free/css/solid.min.css';
 @import '~@fortawesome/fontawesome-free/css/regular.min.css';
 @import '~@fortawesome/fontawesome-free/css/solid.min.css';
 @import '~@fortawesome/fontawesome-free/css/brands.min.css';
 
 body {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
-
-
-.home-cover{
-    height: 90vh;
-    background-size: cover;
-    margin-bottom: 20px;
-    padding-top: 20%;
-    position: relative;
+.home-cover {
+  height: 90vh;
+  background-size: cover;
+  margin-bottom: 20px;
+  padding-top: 20%;
+  position: relative;
 }
 
-.scroll-back-button{
-    position: absolute;
-    right: 0;
-    bottom: 0;
+.scroll-back-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
-.trick-add-btn{
-    height: 10vh;
+.trick-add-btn {
+  height: 10vh;
 }
 
