@@ -8,7 +8,7 @@
     <h4>{{  trick.description }}
     </h4>
     <h6><a href="{{ '/groups/'~trick.category.id }}">{{ trick.category.name }}</a></h6>
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide mb-4" data-ride="carousel">
         <div class="carousel-inner">
             {% for image in trick.images %}
             <div class="carousel-item {{ (loop.index == 1)?('active'):('') }}">

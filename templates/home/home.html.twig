@@ -13,58 +13,65 @@
         <a href="#tricks" class="btn btn-primary scroll-back-button"><i class="fas fa-arrow-alt-circle-down"></i></a>
     </div>
 
-    <div class="container-fluid" id="tricks">
-        <div class="row no-gutters justify-content-around">
-            {% for trick in tricks %}
-            <div class="col-md-2">
-                <div class="card mb-4 shadow-sm">
-                    <a href="{{ '/trick/'~trick.id }}">
-                        <img class="bd-placeholder-img card-img-top" width="100%" height="150" src="{{ asset('images/uploads/'~trick.images[0].path) }}" />
-                    </a>
-                    <div class="card-body">
-                        <p class="card-text">{{ trick.name }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                {%  if app.user != null %}
-                                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('editrick', { 'id': trick.id}) }}"><i class="fas fa-pen"></i>
-                                    <a class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteTrickModal" href="#"><i class="fas fa-trash"></i></a>
-                                {% endif %}
+    <div class="container-fluid mb-3">
+        <div id="containsTrickRows">
+            <div class="row no-gutters justify-content-around">
+                {% for trick in tricks %}
+                <div class="col-md-2">
+                    <div class="card mb-4 shadow-sm">
+                        <a href="{{ path('trick', {'id': trick.id, 'slug': trick.slug}) }}">
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="150" src="{{ asset('images/uploads/'~trick.images[0].path) }}" />
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">{{ trick.name }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    {%  if app.user != null %}
+                                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('editrick', { 'id': trick.id}) }}"><i class="fas fa-pen"></i>
+                                        <a class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteTrickModal" href="#"><i class="fas fa-trash"></i></a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal fade" id="deleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="deleteTrickModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteTrickModalLabel">Warning !</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            You are trying to delete the following trick : "{{ trick.name }}<br>
-                            Are you sure you want to do this ?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-info" data-dismiss="modal">
-                                Cancel
-                            </button>
-                            <a class="btn btn-danger" href="{{ path('trick.delete', {'id': trick.id}) }}">Confirm</a>
+                <div class="modal fade" id="deleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="deleteTrickModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteTrickModalLabel">Warning !</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                You are trying to delete the following trick : "{{ trick.name }}<br>
+                                Are you sure you want to do this ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-info" data-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <a class="btn btn-danger" href="{{ path('trick.delete', {'id': trick.id}) }}">Confirm</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {%  endfor %}
             </div>
-            {%  endfor %}
         </div>
         <div class="row justify-content-center">
-            <button class="btn btn-primary">Load More</button>
+            <button class="btn btn-primary" id="loadMore">Load More</button>
         </div>
     </div>
 </main>
 
+{% endblock %}
+{% block javascripts %}
+    <script>let page = {{ page }}</script>
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('loadmore') }}
 {% endblock %}
 
 

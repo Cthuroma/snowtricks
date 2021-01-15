@@ -46,7 +46,7 @@ class CommentController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('trick', ['id' => $trick->getId(), 'slug' => $trick->getSlug()]);
     }
 
     /**
@@ -62,6 +62,6 @@ class CommentController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('trick', ['id' => $trick->getId(), 'slug' => $trick->getSlug()]);
     }
 }

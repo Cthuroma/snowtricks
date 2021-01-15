@@ -30,6 +30,7 @@ class TrickRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */

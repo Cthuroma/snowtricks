@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\StringType;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -192,5 +194,11 @@ class Trick
         $this->category = $category;
 
         return $this;
+    }
+
+    public function getSlug() :string
+    {
+        $slugger = new AsciiSlugger();
+        return $slugger->slug($this->getName());
     }
 }

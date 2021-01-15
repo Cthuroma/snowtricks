@@ -37,7 +37,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="trick")
+     * @Route("/trick/{id<\d+>}-{slug}", name="trick")
      * @Entity ("trick", expr="repository.findById(id)")
      */
     public function trick(Trick $trick)
@@ -57,7 +57,7 @@ class TrickController extends AbstractController
     public function trickEdit(Trick $trick)
     {
         $assetForm = $this->createForm(AddTrickAssetType::class);
-        $form = $this->createForm(EditTrickType::class);
+        $form = $this->createForm(EditTrickType::class, $trick);
         return $this->render('trick/editrick.html.twig', [
             'trick' => $trick,
             'assetForm' => $assetForm->createView(),
@@ -129,12 +129,12 @@ class TrickController extends AbstractController
             }
            $this->entityManager->persist($trick);
            $this->entityManager->flush();
-            return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('editrick', ['id' => $trick->getId()]);
         }
 
         $form = $this->createForm(EditTrickType::class);
 
-        return $this->render('trick/trick.html.twig', [
+        return $this->render('trick/editrick.html.twig', [
             'trick' => $trick,
             'assetForm' => $assetForm->createView(),
             'form' => $form->createView(),
@@ -151,7 +151,7 @@ class TrickController extends AbstractController
         $trick = $image->getTrick();
         $this->entityManager->remove($image);
         $this->entityManager->flush();
-        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('editrick', ['id' => $trick->getId()]);
     }
 
     /**
@@ -163,7 +163,7 @@ class TrickController extends AbstractController
         $trick = $video->getTrick();
         $this->entityManager->remove($video);
         $this->entityManager->flush();
-        return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('editrick', ['id' => $trick->getId()]);
     }
 
     /**
@@ -178,12 +178,12 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
-            return $this->redirectToRoute('trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('editrick', ['id' => $trick->getId()]);
         }
 
         $assetForm = $this->createForm(AddTrickAssetType::class);
 
-        return $this->render('trick/trick.html.twig', [
+        return $this->render('trick/editrick.html.twig', [
             'trick' => $trick,
             'assetForm' => $assetForm->createView(),
             'form' => $form->createView(),
