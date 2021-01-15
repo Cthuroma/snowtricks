@@ -5,9 +5,6 @@
 {% block body %}
 <div class="container">
     <h1>{{ trick.name }}</h1>
-    <h4>{{  trick.description }}
-    </h4>
-    <h6><a href="{{ '/groups/'~trick.category.id }}">{{ trick.category.name }}</a></h6>
     <div id="carouselExampleControls" class="carousel slide mb-4" data-ride="carousel">
         <div class="carousel-inner">
             {% for image in trick.images %}
@@ -43,7 +40,9 @@
         {% endfor %}
     </div>
     <hr />
-
+    <p class="lead">{{ trick.description }}</p>
+    <h4><span class="badge badge-pill badge-primary">{{ trick.category.name }}</span></h4>
+    <hr />
     <div class="comments col-12">
         <h3 class="mb-4 font-weight-light">Write a comment</h3>
         {{ form_start(form, {action: path('comment', {id: trick.id})}) }}
@@ -58,30 +57,54 @@
         {{ form_end(form) }}
     </div>
     <div class="comments col-12" style="clear: right" id="comments">
+        {% set comment_page = 0 %}
+        {% set comment_num = 0 %}
+        {% set comment_per_page = 5 %}
         <h3 class="mb-4 font-weight-light">Comments</h3>
         {% for comment in trick.comments %}
-        <div class="comment mb-2 row">
-            <div class="comment-content col-11">
-                <h6 class="small comment-meta"><a href="#">{{ comment.user.name }}</a> {{ comment.createdAt|format_datetime() }}</h6>
-                <div class="comment-body">
-                    <p>{{ comment.content }}</p>
-                </div>
-            </div>
-            <div class="col-1">
-            {% if (app.user != null) and (app.user.id == comment.user.id) %}
-                <a href="{{ path('delete_comment', {'id': comment.id }) }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+            {% if(comment_num == 0) or (comment_num % comment_per_page == 0) %}
+                <ul style="padding: 0; list-style: none;" class="pages-ul" data-page="{{ comment_page }}">
+                {% set comment_page = comment_page + 1 %}
             {% endif %}
-            </div>
-        </div>
+                <li>
+                   <div class="comment mb-2 row">
+                        <div class="comment-content col-11">
+                            <h6 class="small comment-meta"><a href="#">{{ comment.user.name }}</a> {{ comment.createdAt|format_datetime() }}</h6>
+                            <div class="comment-body">
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            {% if (app.user != null) and (app.user.id == comment.user.id) %}
+                                <a href="{{ path('delete_comment', {'id': comment.id }) }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </div>
+                   </div>
+                </li>
+            {% if (comment_num == comment_page * comment_per_page - 1) or (comment_num == trick.comments|length-1) %}
+                </ul>
+            {% endif %}
+            {% set comment_num = comment_num + 1 %}
         {% endfor %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {%  for cpt in 0..comment_page-1 %}
+                    {% if cpt == 0 %}
+                        <li class="page-item active" data-page="{{ cpt }}"><a class="page-link" href="#comments">{{ cpt+1 }}</a></li>
+                    {% else %}
+                        <li class="page-item" data-page="{{ cpt }}"><a class="page-link" href="#comments">{{ cpt+1 }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
     </div>
-
 </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('createtrick') }}
     {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('comment_pagination') }}
     {% if assetError is defined %}
         <script>$('#addAssetModal').modal('show')</script>
     {% elseif editError is defined %}
