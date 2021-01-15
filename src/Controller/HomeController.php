@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,12 +26,40 @@ class HomeController extends AbstractController
      */
     public function home(Request $request)
     {
-        $tricks = $this->trickRepository->homeTricks($request->query->get('page', 1));
-
+        $page = 1;
+        $tricks = $this->trickRepository->homeTricks($page);
+        $count = $this->trickRepository->count(array());
+        if(5 > $count){
+            $page = 0;
+        }
         return $this->render('home/home.html.twig', [
-            'tricks' => $tricks
+            'tricks' => $tricks,
+            'page' => $page
         ]);
     }
 
+    /**
+     * @Route("/loadmore/{page}", name="load_more")
+     */
+    public function loadMore(int $page)
+    {
+        $tricks = $this->trickRepository->homeTricks($page);
+        $count = $this->trickRepository->count([]);
+        $response = [
+            'page' => $page,
+            'html' => $this->render(
+                'home/loadmore.html.twig',
+                [
+                    'tricks' => $tricks
+                ]
+            )->getContent()
+        ];
 
+        if($page*5 > $count){
+            $response['page'] = 0;
+        }
+
+
+        return new JsonResponse($response);
+    }
 }
