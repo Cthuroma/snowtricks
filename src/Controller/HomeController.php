@@ -29,6 +29,7 @@ class HomeController extends AbstractController
         $page = 1;
         $tricks = $this->trickRepository->homeTricks($page);
         $count = $this->trickRepository->count(array());
+        $page++;
         if(5 > $count){
             $page = 0;
         }
@@ -46,7 +47,7 @@ class HomeController extends AbstractController
         $tricks = $this->trickRepository->homeTricks($page);
         $count = $this->trickRepository->count([]);
         $response = [
-            'page' => $page,
+            'page' => $page+1,
             'html' => $this->render(
                 'home/loadmore.html.twig',
                 [

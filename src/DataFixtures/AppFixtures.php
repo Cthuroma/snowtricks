@@ -52,52 +52,73 @@ class AppFixtures extends Fixture
         $group->setDescription('Figures that consist in grabbing one part of the snowboard with one or both hands.');
         $manager->persist($group);
 
-        $trick = new Trick();
-        $trick->setName('Nose Grab');
-        $trick->setDescription('The front hand grabs the nose of the snowboard.');
-        $trick->setCategory($group);
+        $group = new Group();
+        $group->setName('Straight Airs');
+        $group->setDescription('Aerial tricks without rotation.');
+        $manager->persist($group);
 
-        $videoOne = new Video();
-        $videoOne->setTrick($trick);
-        $videoOne->setUrl('https://www.youtube.com/embed/gZFWW4Vus-Q');
-        $videoOne->setDescription('How To Nose Grab - Snowboarding Tricks');
+        $group = new Group();
+        $group->setName('Spins');
+        $group->setDescription('Aerial rotations horizontally.');
+        $manager->persist($group);
 
-        $videoTwo = new Video();
-        $videoTwo->setTrick($trick);
-        $videoTwo->setUrl('https://www.youtube.com/embed/nIS14rVlbyQ');
-        $videoTwo->setDescription('Common Mistakes With Nose Grabs');
+        $group = new Group();
+        $group->setName('Flips');
+        $group->setDescription('Aerial vertical rotations.');
+        $manager->persist($group);
 
-        $trick->addVideo($videoOne);
-        $trick->addVideo($videoTwo);
+        $group = new Group();
+        $group->setName('Slides');
+        $group->setDescription('Slides are tricks performed along the surface of obstacles like handrails and funboxes. In skateboarding, slides are distinguished from grinds because some tricks are performed by sliding on the surface of the skateboard, and others are performed by grinding on the trucks of the skateboard. However, because snowboards don\'t have trucks, the term grind doesn\'t apply to these types of maneuvers. They can still be called grinds.');
+        $manager->persist($group);
 
-        $imageOne = new Image();
-        $imageOne->setTrick($trick);
-        $imageOne->setPath('fixture1.jpg');
-        $imageOne->setDescription('Nose grab Image');
+        for($i = 1; $i < 18; $i++){
+            $trick = new Trick();
+            $trick->setName('Nose Grab '.$i);
+            $trick->setDescription('The front hand grabs the nose of the snowboard.');
+            $trick->setCategory($group);
 
-        $imageTwo = new Image();
-        $imageTwo->setTrick($trick);
-        $imageTwo->setPath('fixture2.jpg');
-        $imageTwo->setDescription('Nose grab Image');
+            $videoOne = new Video();
+            $videoOne->setTrick($trick);
+            $videoOne->setUrl('https://www.youtube.com/embed/gZFWW4Vus-Q');
+            $videoOne->setDescription('How To Nose Grab - Snowboarding Tricks');
 
-        $trick->addImage($imageOne);
-        $trick->addImage($imageTwo);
+            $videoTwo = new Video();
+            $videoTwo->setTrick($trick);
+            $videoTwo->setUrl('https://www.youtube.com/embed/nIS14rVlbyQ');
+            $videoTwo->setDescription('Common Mistakes With Nose Grabs');
 
-        $comment = new Comment();
-        $comment->setContent('Harder to do than it looks like !');
-        $comment->setUser($verifiedUser);
-        $comment->setTrick($trick);
-        $comment->setCreatedAt(new \DateTime());
+            $trick->addVideo($videoOne);
+            $trick->addVideo($videoTwo);
 
-        $trick->addComment($comment);
+            $imageOne = new Image();
+            $imageOne->setTrick($trick);
+            $imageOne->setPath('fixture1.jpg');
+            $imageOne->setDescription('Nose grab Image');
 
-        $manager->persist($trick);
-        $manager->persist($comment);
-        $manager->persist($videoOne);
-        $manager->persist($videoTwo);
-        $manager->persist($imageOne);
-        $manager->persist($imageTwo);
+            $imageTwo = new Image();
+            $imageTwo->setTrick($trick);
+            $imageTwo->setPath('fixture2.jpg');
+            $imageTwo->setDescription('Nose grab Image');
 
+            $trick->addImage($imageOne);
+            $trick->addImage($imageTwo);
+
+            $comment = new Comment();
+            $comment->setContent('Harder to do than it looks like !');
+            $comment->setUser($verifiedUser);
+            $comment->setTrick($trick);
+            $comment->setCreatedAt(new \DateTime());
+
+            $trick->addComment($comment);
+
+            $manager->persist($trick);
+            $manager->persist($comment);
+            $manager->persist($videoOne);
+            $manager->persist($videoTwo);
+            $manager->persist($imageOne);
+            $manager->persist($imageTwo);
+        }
         $manager->flush();
     }
 }

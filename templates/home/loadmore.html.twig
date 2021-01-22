@@ -11,7 +11,7 @@
                         <div class="btn-group">
                             {%  if app.user != null %}
                             <a class="btn btn-sm btn-outline-secondary" href="{{ path('editrick', { 'id': trick.id}) }}"><i class="fas fa-pen"></i>
-                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteTrickModal" href="#"><i class="fas fa-trash"></i></a>
+                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteTrickModal{{ trick.id }}" href="#"><i class="fas fa-trash"></i></a>
                                 {% endif %}
                         </div>
                     </div>
@@ -19,11 +19,11 @@
             </div>
         </div>
 
-        <div class="modal fade" id="deleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="deleteTrickModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteTrickModal{{ trick.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteTrickModalLabel{{ trick.id }}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteTrickModalLabel">Warning !</h5>
+                        <h5 class="modal-title" id="deleteTrickModalLabel{{ trick.id }}">Warning !</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

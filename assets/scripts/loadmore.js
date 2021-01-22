@@ -3,7 +3,8 @@ window.onload = function(){
     document.getElementById('loadMore').remove();
   }else{
     document.getElementById('loadMore').onclick = function(){
-      page = loadTricks(page);
+      loadTricks(page);
+      page++;
     }
   }
 
@@ -15,6 +16,9 @@ window.onload = function(){
         response = JSON.parse(this.responseText);
         document.getElementById('containsTrickRows').innerHTML += response.html;
         page = response.page;
+        if(page === 4){
+          document.getElementById('go-top').style.display = 'block';
+        }
         if(response.page === 0){
           document.getElementById('loadMore').remove();
         }
@@ -22,6 +26,6 @@ window.onload = function(){
     };
     xhttp.open("GET", "loadmore/"+page, true);
     xhttp.send();
-    return 1;
+    return page;
   }
 }

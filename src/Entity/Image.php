@@ -113,7 +113,7 @@ class Image
             try {
                 $file->move('images/uploads', $newFilename);
             } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+
             }
             $this->setPath($newFilename);
         }
@@ -124,7 +124,9 @@ class Image
      */
     public function preRemove()
     {
-        $filesystem = new Filesystem();
-        $filesystem->remove(['images/uploads/'.$this->getPath()]);
+        if (!$this->getPath() == 'fixture1.jpg' || !$this->getPath() == 'fixture2.jpg') {
+            $filesystem = new Filesystem();
+            $filesystem->remove(['images/uploads/' . $this->getPath()]);
+        }
     }
 }
