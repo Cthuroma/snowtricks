@@ -1,0 +1,8 @@
+@startuml
+left to right direction
+:Users:
+:Visitors:
+rectangle Application
+Visitors -- Application
+Users -- Application
+@enduml

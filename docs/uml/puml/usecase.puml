@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+:Users:
+:Visitors:
+Users -down-|> Visitors
+package Application {
+		Visitors -- (Register)
+		Visitors -- (Consult all the tricks)
+		Visitors -- (See the comments of a trick)
+		Users -- (Login and Logout)
+		Users -- (Reset password)
+    Users -- (Edit an existing trick)
+    Users -- (Delete an existing trick)
+    Users -- (Publish a new trick)
+    Users -- (Post a comment on a trick)
+}
+@enduml
