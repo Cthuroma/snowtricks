@@ -59,3 +59,8 @@ bin/phpunit
 ```
 
 Only smoke tests of various URLs are implemented.
+
+
+## Docs
+
+You can find PUML and PNG files of various diagrams in the /docs/uml directory.
