@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+
+class User {
+    string mail
+    string name
+    string password
+    string verif_token
+}
+
+class Group {
+    string name
+}
+
+class Trick {
+    string name
+    string descr
+    Group category
+}
+
+class Image {
+    Trick trick
+    string descr
+    string path
+}
+
+class Video {
+    Trick trick
+    string descr
+    string url
+}
+
+class Comment {
+    string content
+    User user
+    Trick trick
+    DateTime created_at
+}
+
+User  "1"--"n" Trick :writes
+User  "1"--"n" Comment :writes
+Trick "1"--"n" Comment :has
+Trick "1"--"n" Video :has
+Trick "1"--"n" Image :has
+Group "1"--"n" Trick :contains
+
+@enduml
